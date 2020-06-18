@@ -65,7 +65,24 @@ public class FXMLController {
 
     @FXML
     void doSimula(ActionEvent event) {
-
+    	String passeggeriString=this.numeroPasseggeriTxtInput.getText();
+    	String voliString=this.numeroVoliTxtInput.getText();
+    	Integer passeggeri,voli;
+    	try {
+    		passeggeri=Integer.parseInt(passeggeriString);
+    	}catch( NumberFormatException e) {
+    		e.printStackTrace();
+    		this.txtResult.appendText("ATTENZIONE! Il valore inserito per i passeggeri non e' un numero consentito.\n");
+    		return;
+    	}
+    	try {
+    		voli=Integer.parseInt(voliString);
+    	}catch( NumberFormatException e) {
+    		e.printStackTrace();
+    		this.txtResult.appendText("ATTENZIONE! Il valore inserito per i passeggeri non e' un numero consentito.\n");
+    		return;
+    	}
+    	model.simula(passeggeri,voli);
     }
     
     void loadData(){

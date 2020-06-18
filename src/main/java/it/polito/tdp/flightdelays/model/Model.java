@@ -17,6 +17,9 @@ public class Model {
 	private FlightDelaysDAO dao= new FlightDelaysDAO();
 	private Graph<Airport, DefaultWeightedEdge> graph;
 	private Map<Integer, Airport> idMapAirport;
+	private Simulator sim=new Simulator();
+	
+	
 	public List<Airline> getAirlines() {
 		return dao.getAirline();
 	}
@@ -31,11 +34,7 @@ public class Model {
 			if(this.graph.vertexSet().contains(a.getA1()) && this.graph.vertexSet().contains(a.getA1()) &&  
 					this.graph.getEdge(a.getA1(), a.getA2())==null && !a.getA1().equals(a.getA2())) {
 				Double peso=(a.getPeso());
-				if(a.getPeso()>0) {
 					Graphs.addEdgeWithVertices(this.graph, a.getA1(), a.getA2(), peso);
-				}else {
-					Graphs.addEdgeWithVertices(this.graph, a.getA2(), a.getA1(), -peso);
-				}
 			}
 		}
 		Collections.sort(flights);
@@ -46,5 +45,11 @@ public class Model {
 	}
 	public Integer getNumArchi() {
 		return this.graph.edgeSet().size();
+	}
+
+	public void simula(Integer passeggeri, Integer voli) {
+		sim.init(passeggeri,voli,idMapAirport);
+		sim.run();
+		
 	}
 }

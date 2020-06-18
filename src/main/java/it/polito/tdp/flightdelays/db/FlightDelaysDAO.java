@@ -132,7 +132,13 @@ public class FlightDelaysDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Arco arco= new Arco(idMapAirport.get(rs.getInt("a1")), idMapAirport.get(rs.getInt("a2")),rs.getDouble("mediaRitardo"));
+				Double mediaRitardo=rs.getDouble("mediaRitardo");
+				Arco arco;
+				if(mediaRitardo>0) {
+					arco= new Arco(idMapAirport.get(rs.getInt("a1")), idMapAirport.get(rs.getInt("a2")),rs.getDouble("mediaRitardo"));
+				}else {
+					arco= new Arco(idMapAirport.get(rs.getInt("a2")), idMapAirport.get(rs.getInt("a1")),Math.abs(rs.getDouble("mediaRitardo")));
+				}
 				result.add(arco);
 			}
 
@@ -146,20 +152,3 @@ public class FlightDelaysDAO {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
