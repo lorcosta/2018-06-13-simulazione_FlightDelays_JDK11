@@ -2,19 +2,19 @@ package it.polito.tdp.flightdelays.model;
 
 public class Airline {
 	
-	private String id;
+	private Integer id;
 	private String name;
 	
-	public Airline(String id, String name) {
+	public Airline(Integer id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -26,7 +26,7 @@ public class Airline {
 		this.name = name;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Airline [id=");
@@ -35,5 +35,9 @@ public class Airline {
 		builder.append(name);
 		builder.append("]");
 		return builder.toString();
+	}*/
+	@Override
+	public String toString() {
+		return name;
 	}
 }

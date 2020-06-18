@@ -3,6 +3,7 @@ package it.polito.tdp.flightdelays;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.flightdelays.model.Airline;
 import it.polito.tdp.flightdelays.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class FXMLController {
     private TextArea txtResult;
 
     @FXML
-    private ComboBox<?> cmbBoxLineaAerea;
+    private ComboBox<Airline> cmbBoxLineaAerea;
 
     @FXML
     private Button caricaVoliBtn;
@@ -38,14 +39,17 @@ public class FXMLController {
 
     @FXML
     void doCaricaVoli(ActionEvent event) {
-
+    	
     }
 
     @FXML
     void doSimula(ActionEvent event) {
 
     }
-
+    
+    void loadData(){
+    	this.cmbBoxLineaAerea.getItems().addAll(model.getAirlines());
+    }
     @FXML
     void initialize() {
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'FlightDelays.fxml'.";
@@ -58,5 +62,6 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model;
+		loadData();
 	}
 }

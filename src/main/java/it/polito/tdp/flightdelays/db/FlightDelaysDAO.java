@@ -24,7 +24,7 @@ public class FlightDelaysDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				result.add(new Airline(rs.getString("ID"), rs.getString("airline")));
+				result.add(new Airline(rs.getInt("ID"), rs.getString("airline")));
 			}
 
 			conn.close();
@@ -79,6 +79,31 @@ public class FlightDelaysDAO {
 						rs.getTimestamp("arrival_date").toLocalDateTime(), rs.getInt("departure_delay"),
 						rs.getInt("arrival_delay"), rs.getInt("air_time"), rs.getInt("distance"));
 				result.add(flight);
+			}
+
+			conn.close();
+			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Errore connessione al database");
+			throw new RuntimeException("Error Connection Database");
+		}
+	}
+	
+	public List<Airline> getAirline(){
+		String sql="SELECT id,airline " + 
+				"FROM airlines";
+		List<Airline> result = new LinkedList<Airline>();
+
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				Airline airline=new Airline(rs.getInt("id"), rs.getString("airline"));
+				result.add(airline);
 			}
 
 			conn.close();
