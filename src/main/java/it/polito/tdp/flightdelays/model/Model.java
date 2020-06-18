@@ -30,11 +30,11 @@ public class Model {
 		for(Arco a:flights) {
 			if(this.graph.vertexSet().contains(a.getA1()) && this.graph.vertexSet().contains(a.getA1()) &&  
 					this.graph.getEdge(a.getA1(), a.getA2())==null && !a.getA1().equals(a.getA2())) {
+				Double peso=(a.getPeso());
 				if(a.getPeso()>0) {
-					Double peso=-(a.getPeso());
 					Graphs.addEdgeWithVertices(this.graph, a.getA1(), a.getA2(), peso);
 				}else {
-					Graphs.addEdgeWithVertices(this.graph, a.getA2(), a.getA1(), a.getPeso());
+					Graphs.addEdgeWithVertices(this.graph, a.getA2(), a.getA1(), peso);
 				}
 			}
 		}
