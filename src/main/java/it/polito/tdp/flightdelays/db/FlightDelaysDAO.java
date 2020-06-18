@@ -118,7 +118,7 @@ public class FlightDelaysDAO {
 		}
 	}
 	public List<Arco> getFlights(Airline airline,Map<Integer,Airport> idMapAirport){
-		String sql="SELECT f1.origin_airport_id AS a1, f1.destination_airport_id AS a2, AVG(f1.arrival_delay) as mediaRitardo, f1.distance AS distanza " + 
+		String sql="SELECT f1.origin_airport_id AS a1, f1.destination_airport_id AS a2, AVG(f1.arrival_delay) as mediaRitardo " + 
 				"FROM flights f1, flights f2 " + 
 				"WHERE f1.airline_id=? AND f1.airline_id=f2.airline_id AND f1.id=f2.id AND "+
 				"f1.origin_airport_id=f2.origin_airport_id AND f1.destination_airport_id=f2.destination_airport_id " + 
@@ -132,7 +132,7 @@ public class FlightDelaysDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Arco arco= new Arco(idMapAirport.get(rs.getInt("a1")), idMapAirport.get(rs.getInt("a2")),rs.getDouble("mediaRitardo"),rs.getDouble("distanza"));
+				Arco arco= new Arco(idMapAirport.get(rs.getInt("a1")), idMapAirport.get(rs.getInt("a2")),rs.getDouble("mediaRitardo"));
 				result.add(arco);
 			}
 

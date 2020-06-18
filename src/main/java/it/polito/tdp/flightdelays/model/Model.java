@@ -34,7 +34,7 @@ public class Model {
 				if(a.getPeso()>0) {
 					Graphs.addEdgeWithVertices(this.graph, a.getA1(), a.getA2(), peso);
 				}else {
-					Graphs.addEdgeWithVertices(this.graph, a.getA2(), a.getA1(), peso);
+					Graphs.addEdgeWithVertices(this.graph, a.getA2(), a.getA1(), -peso);
 				}
 			}
 		}

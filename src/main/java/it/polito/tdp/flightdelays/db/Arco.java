@@ -1,5 +1,9 @@
 package it.polito.tdp.flightdelays.db;
 
+import com.javadocmd.simplelatlng.LatLng;
+import com.javadocmd.simplelatlng.LatLngTool;
+import com.javadocmd.simplelatlng.util.LengthUnit;
+
 import it.polito.tdp.flightdelays.model.Airport;
 
 
@@ -14,12 +18,12 @@ public class Arco implements Comparable<Arco>{
 	 * @param a2
 	 * @param mediaRitardo
 	 */
-	public Arco(Airport a1, Airport a2, Double mediaRitardo,Double distanza) {
+	public Arco(Airport a1, Airport a2, Double mediaRitardo) {
 		super();
 		this.a1 = a1;
 		this.a2 = a2;
 		this.mediaRitardo = mediaRitardo;
-		this.distanza=distanza;
+		this.distanza=LatLngTool.distance(new LatLng(a1.getLatitude(),a1.getLongitude()), new LatLng(a2.getLatitude(),a2.getLongitude()), LengthUnit.KILOMETER);
 		this.peso=mediaRitardo/distanza;
 	}
 	public Airport getA1() {
