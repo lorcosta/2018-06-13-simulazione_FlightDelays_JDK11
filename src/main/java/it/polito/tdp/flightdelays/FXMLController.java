@@ -1,8 +1,10 @@
 package it.polito.tdp.flightdelays;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.flightdelays.db.Arco;
 import it.polito.tdp.flightdelays.model.Airline;
 import it.polito.tdp.flightdelays.model.Model;
 import javafx.event.ActionEvent;
@@ -39,7 +41,26 @@ public class FXMLController {
 
     @FXML
     void doCaricaVoli(ActionEvent event) {
-    	
+    	this.txtResult.clear();
+    	Airline airline=this.cmbBoxLineaAerea.getValue();
+    	if(airline==null) {
+    		this.txtResult.appendText("ATTENZIONE! Nessuna linea aerea selezionata.\n");
+    	}
+    	List<Arco> peggioriRotte=model.creaGrafo(airline);
+    	Integer vertici=model.getNumVertici(), archi=model.getNumArchi();
+    	if(vertici==0 || archi.equals(0)) {
+    		this.txtResult.appendText("ATTENZIONE! Qualcosa e' andato storto nella creazione del grafo.\n");
+    		return;
+    	}
+    	this.txtResult.appendText("GRAFO CREATO!\n #VERTICI: "+vertici+" e #ARCHI: "+archi+"\n");
+    	if(peggioriRotte.size()==0) {
+    		this.txtResult.appendText("ATTENZIONE! Qualcosa e' andato storto nella creazione del grafo.\n");
+    		return;
+    	}
+    	this.txtResult.appendText("Stampo le 10 peggiori rotte:\n");
+    	for(int i=0;i<10;i++) {
+    		this.txtResult.appendText(peggioriRotte.get(i).toString()+"\n");
+    	}
     }
 
     @FXML

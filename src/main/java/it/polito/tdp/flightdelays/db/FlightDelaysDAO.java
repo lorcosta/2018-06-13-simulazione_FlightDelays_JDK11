@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import it.polito.tdp.flightdelays.model.Airline;
 import it.polito.tdp.flightdelays.model.Airport;
@@ -37,7 +38,7 @@ public class FlightDelaysDAO {
 		}
 	}
 
-	public List<Airport> loadAllAirports() {
+	public List<Airport> loadAllAirports(Map<Integer,Airport> idMapAirport) {
 		String sql = "SELECT id, airport, city, state, country, latitude, longitude FROM airports";
 		List<Airport> result = new ArrayList<Airport>();
 		
@@ -47,8 +48,9 @@ public class FlightDelaysDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Airport airport = new Airport(rs.getString("id"), rs.getString("airport"), rs.getString("city"),
+				Airport airport = new Airport(rs.getInt("id"), rs.getString("airport"), rs.getString("city"),
 						rs.getString("state"), rs.getString("country"), rs.getDouble("latitude"), rs.getDouble("longitude"));
+				idMapAirport.put(airport.getId(), airport);
 				result.add(airport);
 			}
 			
@@ -115,5 +117,49 @@ public class FlightDelaysDAO {
 			throw new RuntimeException("Error Connection Database");
 		}
 	}
+	public List<Arco> getFlights(Airline airline,Map<Integer,Airport> idMapAirport){
+		String sql="SELECT f1.origin_airport_id AS a1, f1.destination_airport_id AS a2, AVG(f1.arrival_delay) as mediaRitardo, f1.distance AS distanza " + 
+				"FROM flights f1, flights f2 " + 
+				"WHERE f1.airline_id=? AND f1.airline_id=f2.airline_id AND f1.id=f2.id AND "+
+				"f1.origin_airport_id=f2.origin_airport_id AND f1.destination_airport_id=f2.destination_airport_id " + 
+				"GROUP BY f1.origin_airport_id, f1.destination_airport_id,f1.distance";
+		List<Arco> result = new LinkedList<Arco>();
+
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, airline.getId());
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				Arco arco= new Arco(idMapAirport.get(rs.getInt("a1")), idMapAirport.get(rs.getInt("a2")),rs.getDouble("mediaRitardo"),rs.getDouble("distanza"));
+				result.add(arco);
+			}
+
+			conn.close();
+			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Errore connessione al database");
+			throw new RuntimeException("Error Connection Database");
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
